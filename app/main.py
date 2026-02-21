@@ -1,3 +1,12 @@
+import time
+import logging
+from fastapi import Request
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("ml-api")
+
+request_count = 0
+
 from fastapi import FastAPI, File, UploadFile
 import numpy as np
 import cv2
