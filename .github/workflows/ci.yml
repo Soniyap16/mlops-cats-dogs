@@ -38,3 +38,20 @@ jobs:
     - name: Push Docker image
       run: |
         docker push ${{ secrets.DOCKER_USERNAME }}/cats-dogs-api:latest
+
+          - name: Deploy to Azure Container Apps
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Update Azure Container App
+      run: |
+        az containerapp update \
+          --name cats-dogs-api \
+          --resource-group mlopsassignment \
+          --image soniyapushparaj/cats-dogs-api:latest
+
+    - name: Smoke Test API
+      run: |
+        sleep 20
+        curl -f https://<https://cats-dogs-api.orangepebble-10defb0f.eastus2.azurecontainerapps.io>/health
